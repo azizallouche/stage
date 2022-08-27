@@ -1,5 +1,7 @@
+@import url('https://fonts.googleapis.com/css?family=Inconsolata:700');
 * {
   box-sizing: border-box;
+
 }
 
 
@@ -140,3 +142,60 @@
   font-size: 1.25rem;
   border: none;
 }
+ul.return
+{
+  transform: translate(-50%,-50%);
+  display:flex;
+}
+ul.return li
+{
+  list-style: none;
+  width: 45px;
+  height: 45px;
+  background: #262626;
+  margin: 0 10px;
+  border-radius: 50%;
+  transition: .5s;
+}
+ul.return li:hover
+{
+  background:#0070ff;
+}
+ul.return li span{
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border: 3px solid #fff;
+  transition: .5s;
+
+
+}
+ul.return li.prev span
+{
+  top: 35%;
+  left: 55%;
+transform: translate(-50%) rotate(-45deg);
+  border-right: none;
+  border-bottom: none;
+}
+ul.return li.prev:hover span
+{
+  left: 40%;
+}
+
+ul.return li.prev span:before
+{
+  content: '';
+  position: absolute;
+  width: 28px;
+  height: 3px;
+  background: #fff;
+  transform-origin: left;
+  transform: rotate(45deg) translate(-4px,-2px) scale(0);
+}
+
+ul.return li.prev:hover span:before
+{
+  transform:rotate(45deg) translate(-2px,-1px) scaleX(1);
+}
+

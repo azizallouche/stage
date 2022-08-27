@@ -1,23 +1,23 @@
 <?php
 
 namespace App\Entity;
-
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Security\Core\User\UserInterface;
+#[ApiResource(formats: ['json'])]
+#[ApiFilter(SearchFilter::class, properties: ['email' => 'exact'])]
 /**
- * User
- *
- * @ORM\Table(name="user")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=UserRepository::class)
  */
-class User
+class User implements UserInterface
 {
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id_user", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue
+     * @ORM\Column(name="id_user", type="integer", nullable=false)
      */
     private $idUser;
 
@@ -43,60 +43,54 @@ class User
     private $age;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="email", type="string", length=50, nullable=false)
+     * @ORM\Column(type="string", length=180, unique=true)
      */
     private $email;
 
     /**
-     * @var string
-     *
+     * @ORM\Column(type="json")
+     */
+    private $roles = [];
+
+    /**
+     * @var string The hashed password
      * @ORM\Column(name="password", type="string", length=500, nullable=false)
      */
     private $password;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="type", type="string", length=5000, nullable=false)
-     */
-    private $type;
-
-    /**
-     * @param int $idUser
      * @param string $nom
      * @param string $prenom
      * @param int $age
-     * @param string $email
+     * @param $email
+     * @param array $roles
      * @param string $password
-     * @param string $type
      */
-    public function __construct(int $idUser, string $nom, string $prenom, int $age, string $email, string $password, string $type)
+    public function __construct(string $nom, string $prenom, int $age, $email, array $roles, string $password)
     {
-        $this->idUser = $idUser;
         $this->nom = $nom;
         $this->prenom = $prenom;
         $this->age = $age;
         $this->email = $email;
+        $this->roles = $roles;
         $this->password = $password;
-        $this->type = $type;
     }
 
-    /**
-     * @return int
-     */
-    public function getIdUser(): int
+    public function getIdUser(): ?int
     {
         return $this->idUser;
     }
 
-    /**
-     * @param int $idUser
-     */
-    public function setIdUser(int $idUser): void
+    public function getEmail(): ?string
     {
-        $this->idUser = $idUser;
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
     }
 
     /**
@@ -148,55 +142,70 @@ class User
     }
 
     /**
-     * @return string
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
      */
-    public function getEmail(): string
+    public function getUsername(): string
     {
-        return $this->email;
+        return (string) $this->email;
     }
 
     /**
-     * @param string $email
+     * @see UserInterface
      */
-    public function setEmail(string $email): void
+    public function getRoles(): array
     {
-        $this->email = $email;
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
     }
 
     /**
-     * @return string
+     * @see UserInterface
      */
     public function getPassword(): string
     {
         return $this->password;
     }
 
-    /**
-     * @param string $password
-     */
-    public function setPassword(string $password): void
+    public function setPassword(string $password): self
     {
         $this->password = $password;
+
+        return $this;
     }
 
     /**
-     * @return string
+     * Returning a salt is only needed, if you are not using a modern
+     * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
+     *
+     * @see UserInterface
      */
-    public function getType(): string
+    public function getSalt(): ?string
     {
-        return $this->type;
+        return null;
     }
 
     /**
-     * @param string $type
+     * @see UserInterface
      */
-    public function setType(string $type): void
+    public function eraseCredentials()
     {
-        $this->type = $type;
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
     }
     public function __toString(): string
     {
         return $this->getIdUser();
     }
-
 }

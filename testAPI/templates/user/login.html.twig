@@ -1,0 +1,282 @@
+
+
+{% block title %}Log in!{% endblock %}
+
+{% block body %}
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="description" content="Faf | Gaming HTML Template from Themescare">
+        <meta name="keyword" content="game, gaming, videogame, developer, steam, studio, team">
+        <meta name="author" content="Themescare">
+        <!-- Title -->
+        <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css'><link rel="stylesheet" href="{{ asset('stylelogin.css') }}">
+
+        <title>Faf | Gaming HTML Template</title>
+        <!-- Favicon -->
+        <link rel="icon" type="image/png" sizes="32x32" href="../assets/img/favicon/favicon-32x32.png">
+        <!--Bootstrap css-->
+        <link rel="stylesheet" href="../assets/css/bootstrap.css">
+        <!--Font Awesome css-->
+        <link rel="stylesheet" href="../assets/css/font-awesome.min.css">
+        <!--Magnific css-->
+        <link rel="stylesheet" href="../assets/css/magnific-popup.css">
+        <!--Owl-Carousel css-->
+        <link rel="stylesheet" href="../assets/css/owl.carousel.min.css">
+        <link rel="stylesheet" href="../assets/css/owl.theme.default.min.css">
+        <!--NoUiSlider css-->
+        <link rel="stylesheet" href="../assets/css/nouislider.min.css">
+        <!--Animate css-->
+        <link rel="stylesheet" href="../assets/css/animate.min.css">
+        <!--Site Main Style css-->
+        <link rel="stylesheet" href="../assets/css/style.css">
+        <!--Responsive css-->
+        <link rel="stylesheet" href="../assets/css/responsive.css">
+    </head>
+<form method="post" novalidate="novalidate">
+    {% if error %}
+        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+
+    {% if app.user %}
+        <div class="mb-3">
+            You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+        </div>
+    {% endif %}
+
+    <h2>TRITUX</h2>
+    <div class="container" id="container">
+        <div class="form-container sign-up-container">
+            <div class="aa">
+                <h1>Create Account</h1>
+
+                <span>or use your email for registration</span>
+                <input type="text" placeholder="Name" id="nomsign" />
+                <input type="text" placeholder="Family Name" id="familysign"/>
+                <input type="text" placeholder="Age" id="agesign" required="false"/>
+                <input type="email" placeholder="Email" id="emailsign"/>
+                <input type="password" placeholder="Password" id="passsign"/>
+                <select  style="width: 290px; " name="type" id="typesign">
+                    <option  value="ROLE_USER">Developer</option>
+                    <option  value="ROLE_ADMIN">Product Owner</option>
+
+                </select>
+                <br>
+                <button onclick="signup()">Sign Up</button>
+            </div>
+        </div>
+        <div class="form-container sign-in-container">
+            <div class="aa">
+                <h1>Sign in</h1>
+                <div class="social-container">
+                    <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+                    <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+                <span>or use your account</span>
+                <form>
+                    <div class="form-row">
+                        <input  style="width: 270px;"  type="email" value="{{ last_username }}" name="email" id="inputEmail"  placeholder="Email" autocomplete="email" required autofocus>
+                    </div>
+                    <br>
+                    <div class="form-row">
+                        <input style="width: 270px;" type="password" name="password" id="inputPassword"  placeholder="Password" autocomplete="current-password" required />
+                    </div>
+                    <br>
+                    <br>
+                    <div class="form-row"></div>
+                    <div class="form-row">
+                        <button  type="submit">Sign In</button>
+                    </div>
+                    <input type="hidden" name="_csrf_token"
+                           value="{{ csrf_token('authenticate') }}">
+                </form>
+
+            </div>
+        </div>
+        <div class="overlay-container">
+            <div class="overlay">
+                <div class="overlay-panel overlay-left">
+                    <h1>Welcome Back!</h1>
+                    <p>To keep connected with us please login with your personal info</p>
+                    <button class="ghost" id="signIn">Sign In</button>
+                </div>
+                <div class="overlay-panel overlay-right">
+                    <h1>Hello, Friend!</h1>
+                    <p>Enter your personal details and start journey with us</p>
+                    <button class="ghost" id="signUp">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+    <!-- partial -->
+    <script  src="{{ asset('scriptlogin.js') }}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript">
+
+
+        function signup() {
+
+            let data = {nom:document.getElementById("nomsign").value,
+                prenom :document.getElementById("familysign").value,
+                age :parseInt(document.getElementById("agesign").value),
+                email :document.getElementById("emailsign").value,
+                password :document.getElementById("passsign").value,
+                roles :document.getElementById("typesign").value}
+
+            $.ajax({
+                type: 'POST',
+                url: "http://127.0.0.1:8000/api/users",
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                'success' : function(retour) {
+                    if (retour) {
+                        window.location.href = "http://127.0.0.1:8000/home";
+                    }
+                }, // access in body
+            });
+
+
+        }
+    </script>
+    </body>
+
+
+    {#
+    Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+    See https://symfony.com/doc/current/security/remember_me.html
+    <div class="checkbox mb-3">
+        <label>
+            <input type="checkbox" name="_remember_me"> Remember me
+        </label>
+    </div>
+    #}
+
+
+
+
+    <!--Jquery js-->
+    <script src="../assets/js/jquery.min.js"></script>
+    <!-- Popper JS -->
+    <script src="../assets/js/popper.min.js"></script>
+    <!--Bootstrap js-->
+    <script src="../assets/js/bootstrap.min.js"></script>
+    <!--Owl-Carousel js-->
+    <script src="../assets/js/owl.carousel.min.js"></script>
+    <!--Magnific js-->
+    <script src="../assets/js/jquery.magnific-popup.min.js"></script>
+    <!--wNumb js-->
+    <script src="../assets/js/wNumb.js"></script>
+    <!--NoUiSlider js-->
+    <script src="../assets/js/nouislider.min.js"></script>
+    <!-- Isotop Js -->
+    <script src="../assets/js/isotope.pkgd.min.js"></script>
+    <script src="../assets/js/custom-isotop.js"></script>
+    <!-- Counter JS -->
+    <script src="../assets/js/jquery.counterup.min.js"></script>
+    <!-- Way Points JS -->
+    <script src="../assets/js/waypoints-min.js"></script>
+    <!--Main js-->
+    <script src="../assets/js/main.js"></script>
+    {% endblock %}
+{#  <html lang="en-US">
+<!-- Mirrored from themescare.com/demos/faf/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 05 Apr 2022 18:42:46 GMT -->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Faf | Gaming HTML Template from Themescare">
+    <meta name="keyword" content="game, gaming, videogame, developer, steam, studio, team">
+    <meta name="author" content="Themescare">
+    <!-- Title -->
+    <title>Faf | Gaming HTML Template</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/img/favicon/favicon-32x32.png">
+    <!--Bootstrap css-->
+    <link rel="stylesheet" href="../assets/css/bootstrap.css">
+    <!--Font Awesome css-->
+    <link rel="stylesheet" href="../assets/css/font-awesome.min.css">
+    <!--Magnific css-->
+    <link rel="stylesheet" href="../assets/css/magnific-popup.css">
+    <!--Owl-Carousel css-->
+    <link rel="stylesheet" href="../assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="../assets/css/owl.theme.default.min.css">
+    <!--NoUiSlider css-->
+    <link rel="stylesheet" href="../assets/css/nouislider.min.css">
+    <!--Animate css-->
+    <link rel="stylesheet" href="../assets/css/animate.min.css">
+    <!--Site Main Style css-->
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <!--Responsive css-->
+    <link rel="stylesheet" href="../assets/css/responsive.css">
+</head>
+<body>
+<!-- Custom Cursor Start -->
+<div id="cursor-large"></div>
+<div id="cursor-small"></div>
+<!-- Custom Cursor End -->
+<!-- page 404 -->
+<div class="page-404 section--full-bg">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="page-404__wrap">
+                    <div class="login-wrapper">
+                        <img class="login_user" src="../assets/img/login-avatar.png" alt="login user" />
+                        <h3>Account Login</h3>
+                        <form>
+                            <div class="form-row">
+                                <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+                            </div>
+                            <div class="form-row">
+                                <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required />
+                            </div>
+                            <div class="form-row"></div>
+                            <div class="form-row">
+                                <button class="fag-btn" type="submit">Login to your Account!</button>
+                            </div>
+                        </form>
+                        <div class="socials-wrapper">
+                            <p>Login with your Social Account</p>
+                            <ul>
+                                <li><a href="#" class="facebook"><i class="fa fa-facebook-square"></i></a></li>
+                                <li><a href="#" class="twitter"><i class="fa fa-twitter"></i></a></li>
+                                <li><a href="#" class="twitch"><i class="fa fa-twitch"></i></a></li>
+                                <li><a href="#" class="youtube"><i class="fa fa-youtube"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end page 404 -->
+<!--Jquery js-->
+<script src="../assets/js/jquery.min.js"></script>
+<!-- Popper JS -->
+<script src="../assets/js/popper.min.js"></script>
+<!--Bootstrap js-->
+<script src="../assets/js/bootstrap.min.js"></script>
+<!--Owl-Carousel js-->
+<script src="../assets/js/owl.carousel.min.js"></script>
+<!--Magnific js-->
+<script src="../assets/js/jquery.magnific-popup.min.js"></script>
+<!--wNumb js-->
+<script src="../assets/js/wNumb.js"></script>
+<!--NoUiSlider js-->
+<script src="../assets/js/nouislider.min.js"></script>
+<!-- Isotop Js -->
+<script src="../assets/js/isotope.pkgd.min.js"></script>
+<script src="../assets/js/custom-isotop.js"></script>
+<!-- Counter JS -->
+<script src="../assets/js/jquery.counterup.min.js"></script>
+<!-- Way Points JS -->
+<script src="../assets/js/waypoints-min.js"></script>
+<!--Main js-->
+<script src="../assets/js/main.js"></script>
+</body>
+<!-- Mirrored from themescare.com/demos/faf/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 05 Apr 2022 18:42:46 GMT -->
+</html>#}

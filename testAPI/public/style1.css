@@ -17,7 +17,7 @@
 
 body {
   font-family: "Poppins", sans-serif;
-  overflow-x: hidden;
+  overflow-x: auto;
   background-color: #e4e2f5;
   min-height: 100vh;
   display: flex;
@@ -82,11 +82,15 @@ main .copyright span {
   position: relative;
   display: flex;
   align-items: center;
+
+
 }
 
 .sidebar-top .logo {
-  width: 2.1rem;
+  width: 8.1rem;
   margin: 0 0.8rem;
+  margin-left: 40px;
+  margin-top: 7px;
 }
 
 .sidebar-top h3 {
@@ -150,6 +154,32 @@ nav:hover .shrink-btn,
 }
 
 .search input::placeholder {
+  color: #000;
+}
+
+.search1 {
+  min-height: 2.7rem;
+  background-color: #fff;
+  box-shadow: 0px 3px 10px -3px rgb(61,91,241);
+  display: grid;
+  grid-template-columns: 2.7rem 1fr;
+  align-items: center;
+  text-align: center;
+  border-radius: 50px;
+  cursor: pointer;
+}
+
+.search1 input {
+  height: 100%;
+  border: none;
+  background: none;
+  outline: none;
+  color: #000;
+  caret-color: #000;
+  font-family: inherit;
+}
+
+.search1 input::placeholder {
   color: var(--text-color);
 }
 
@@ -273,6 +303,7 @@ nav:hover .shrink-btn,
   width: 2.9rem;
   border-radius: 50%;
   margin: 0 0.4rem;
+  margin-bottom: 10px;
 }
 
 .admin-info {
@@ -283,6 +314,7 @@ nav:hover .shrink-btn,
   font-weight: 500;
   font-size: 1rem;
   line-height: 1;
+  color: #fff;
 }
 
 .admin-info h5 {
@@ -386,4 +418,24 @@ body.shrink .admin-profile {
 
 body.shrink .tooltip {
   display: grid;
+}
+
+.card-block:hover{
+  display: inline-block;
+  background: linear-gradient(to right, #0155ad, #01a0e0);
+  background-repeat: no-repeat;
+  animation-duration: 10s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-name: placeholderShimmer;
+  animation-timing-function: linear;
+
+}
+
+
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+
+  padding: 6px;
 }

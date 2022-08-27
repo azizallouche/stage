@@ -2,8 +2,9 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
-
+#[ApiResource(formats: ['json'])]
 /**
  * Project
  *
@@ -34,7 +35,12 @@ class Project
      * @ORM\Column(name="description", type="string", length=500, nullable=false)
      */
     private $description;
-
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nom", type="string", length=500, nullable=false)
+     */
+    private $nom;
     /**
      * @var \App\Entity\Team
      *
@@ -49,15 +55,40 @@ class Project
      * @param int $idP
      * @param string $technology
      * @param string $description
-     * @param \App\Entity\Team $idTeam
+     * @param string $nom
+     * @param Team $idTeam
      */
-    public function __construct(int $idP, string $technology, string $description, \App\Entity\Team $idTeam)
+    public function __construct(int $idP, string $technology, string $description, string $nom, Team $idTeam)
     {
         $this->idP = $idP;
         $this->technology = $technology;
         $this->description = $description;
+        $this->nom = $nom;
         $this->idTeam = $idTeam;
     }
+
+    /**
+     * @return string
+     */
+    public function getNom(): string
+    {
+        return $this->nom;
+    }
+
+    /**
+     * @param string $nom
+     */
+    public function setNom(string $nom): void
+    {
+        $this->nom = $nom;
+    }
+
+    /**
+     * @param int $idP
+     * @param string $technology
+     * @param string $description
+     * @param \App\Entity\Team $idTeam
+     */
 
     /**
      * @return int

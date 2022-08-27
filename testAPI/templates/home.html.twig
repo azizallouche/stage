@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sidebar Menu</title>
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="style1.css">
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rubik">
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/Animated-Scroll-Down-Mouse.css">
+    <link rel="stylesheet" href="assets/css/Bold-BS4-Responsive-Pricing-Table-Snippet.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <link rel="stylesheet" href="assets/css/Pricing-Table.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/css/Swiper-Slider-Card-For-Blog-Or-Product-swiper.min.css">
+    <link rel="stylesheet" href="assets/css/Swiper-Slider-Card-For-Blog-Or-Product-untitled.css">
+</head>
+
+
+<nav id="site-header" style="position: fixed;">
+    <div class="sidebar-top">
+      <span class="shrink-btn">
+        <i class='bx bx-chevron-left'></i>
+      </span>
+        <img src="{{ asset('a.png') }}" class="logo" alt="">
+
+
+    </div>
+
+    <div class="search">
+        <i class='bx bx-search'></i>
+        <input type="text" class="" placeholder="Quick Search ...">
+    </div>
+
+    <div class="sidebar-links">
+        <ul>
+            <div class="active-tab"></div>
+            <li class="tooltip-element" data-tooltip="0">
+                <a href="#" class="active" data-active="0">
+                    <div class="icon">
+                        <i class='bx bx-tachometer'></i>
+                        <i class='bx bxs-tachometer'></i>
+                    </div>
+                    <span class="link hide">Home</span>
+                </a>
+            </li>
+            <li class="tooltip-element" data-tooltip="1">
+                <a href="{{ path('app_project') }}" data-active="1">
+                    <div class="icon">
+                        <i class='bx bx-folder'></i>
+                        <i class='bx bxs-folder'></i>
+                    </div>
+                    <span class="link hide">Projects</span>
+                </a>
+            </li>
+
+            <li class="tooltip-element" data-tooltip="2">
+                <a href="{{ path('ticket') }}" data-active="2">
+                    <div class="icon">
+                        <i class='bx bx-notepad'></i>
+                        <i class='bx bxs-notepad'></i>
+                    </div>
+                    <span class="link hide">Tasks</span>
+                </a>
+            </li>
+            <li class="tooltip-element" data-tooltip="3">
+                <a href="#" data-active="3">
+                    <div class="icon">
+                        <i class='bx bx-bar-chart-square'></i>
+                        <i class='bx bxs-bar-chart-square'></i>
+                    </div>
+                    <span class="link hide">Analytics</span>
+                </a>
+            </li>
+
+
+            <div class="tooltip">
+                <span class="show">Dashboard</span>
+                <span>Projects</span>
+                <span>Messages</span>
+                <span>Analytics</span>
+            </div>
+        </ul>
+
+
+    </div>
+
+    <div class="sidebar-footer">
+        <a href="#" class="account tooltip-element" data-tooltip="0">
+            <i class='bx bx-user'></i>
+        </a>
+        <div class="admin-user tooltip-element" data-tooltip="1">
+            <div class="admin-profile hide">
+                <img src="{{ asset('profile.jpg') }}" alt="">
+                <div class="admin-info">
+                    <h3 id="session"></h3>
+                    <h5 id="t"></h5>
+                </div>
+            </div>
+            <a href="#" class="log-out">
+                <i class='bx bx-log-out'></i>
+            </a>
+        </div>
+        <div class="tooltip">
+            <span class="show">John Doe</span>
+            <span>Logout</span>
+        </div>
+    </div>
+    <div id="ses" hidden>{{ app.user.username }}</div>
+</nav>
+
+<body>
+<main>
+    <h1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Home
+       </h1>
+    <br><br>
+    <div class="blog-slider" style="margin-left:450px;">
+        <div class="blog-slider__wrp swiper-wrapper">&nbsp;
+            <div class="blog-slider__item swiper-slide">
+                <div></div>
+                <div class="blog-slider__img"><img src="img/project.jpg"></div>
+                <div class="blog-slider__content"><span class="blog-slider__code">01 aout 2022</span><div class="blog-slider__title">Projects</div><div class="blog-slider__text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Recusandae voluptate repellendus magni illo ea animi? </div><a class="class=&quot;blog-slider__button" href="#">READ MORE</a></div>
+            </div>
+            <div class="blog-slider__item swiper-slide">
+                <div></div>
+                <div class="blog-slider__img"><img src="img/task.png"></div>
+                <div class="blog-slider__content"><span class="blog-slider__code">01 aout 2022</span><div class="blog-slider__title">Tasks</div><div class="blog-slider__text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Recusandae voluptate repellendus magni illo ea animi? </div><a class="class=&quot;blog-slider__button" href="http://127.0.0.1:8000/ticket">READ MORE</a></div>
+            </div>
+            <div class="blog-slider__item swiper-slide">
+                <div></div>
+                <div class="blog-slider__img"><img src="img/analytics.png"></div>
+                <div class="blog-slider__content"><span class="blog-slider__code">01 aout 2022</span><div class="blog-slider__title">Analytics</div><div class="blog-slider__text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Recusandae voluptate repellendus magni illo ea animi? </div><a class="class=&quot;blog-slider__button" href="#">READ MORE</a></div>
+            </div>
+            <div class="blog-slider__pagination"></div>
+        </div>
+    </div>
+    <br><br><br><br>
+
+
+    <p class="copyright">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &copy; 2022 - <span>Tritux</span> All Rights Reserved.
+    </p>
+</main>
+
+<script src="app.js"></script>
+<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+<script src="assets/js/bs-init.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+<script src="assets/script.js"></script>
+<script src="assets/js/Swiper-Slider-Card-For-Blog-Or-Product.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+console.log(document.getElementById("ses").textContent);
+$.ajax({
+    /* l’url est une chaine de caractères contenant l’adresse où la requête est envoyée */
+    'async': false,
+    'global': false,
+    'url': "http://127.0.0.1:8000/api/users?email="+document.getElementById("ses").textContent,
+
+    'dataType': "json",
+    /*Cette fonction permet de vider le contenu du tableau pour recevoir le nouveau contenu*/
+    'success' : function(retour){
+        if(retour){
+            $.each(retour, function(i, obj) {
+                document.getElementById("session").innerHTML = obj.prenom;
+
+                console.log(obj.roles[0]);
+                if (obj.roles[0]=="ROLE_USER")
+                {
+                    document.getElementById("t").innerHTML = "Developer";
+                }
+                else if (obj.roles[0]=="ROLE_ADMIN")
+                {
+                    document.getElementById("t").innerHTML = "Product Owner";
+                }
+            });
+            }
+        //$('#t tbody#search').append('<tr><td> '+obj.lieu+'  </td><td>    '+obj.nbPlace+'  </td><td>'+obj.descriptions+' </td><td>'+obj.dateEvent+' </td><td>'+obj.getcategory+' </td><td>'+obj.Description+'</td><td><td><a href="event/'+obj.idEvent+'/edit">Modifier</a></td></tr>');
+        else
+        {
+
+        }
+    },
+});
+
+
+</script>
+</body>
+
+</html>

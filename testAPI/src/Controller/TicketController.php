@@ -12,7 +12,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 class TicketController extends AbstractController
 {
     /**
-     * @Route("/ticket", name="app_ticket")
+     * @Route("/ticket", name="ticket")
      */
     public function index(): Response
     {

@@ -29,7 +29,7 @@ class Developer
     private $skill;
 
     /**
-     * @var \User
+     * @var \App\Entity\\User
      *
      * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumns({
@@ -41,9 +41,9 @@ class Developer
     /**
      * @param int $idDev
      * @param string $skill
-     * @param \User $idUser
+     * @param \App\Entity\User $idUser
      */
-    public function __construct(int $idDev, string $skill, \User $idUser)
+    public function __construct(int $idDev, string $skill, \App\Entity\User $idUser)
     {
         $this->idDev = $idDev;
         $this->skill = $skill;
@@ -83,17 +83,17 @@ class Developer
     }
 
     /**
-     * @return \User
+     * @return \App\Entity\User
      */
-    public function getIdUser(): \User
+    public function getIdUser(): \App\Entity\User
     {
         return $this->idUser;
     }
 
     /**
-     * @param \User $idUser
+     * @param \App\Entity\User $idUser
      */
-    public function setIdUser(\User $idUser): void
+    public function setIdUser(\App\Entity\User $idUser): void
     {
         $this->idUser = $idUser;
     }
