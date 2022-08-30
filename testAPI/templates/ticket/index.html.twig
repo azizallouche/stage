@@ -1,6 +1,20 @@
 {% extends 'base.html.twig' %}
 {% block body %}
     <link rel="stylesheet" href="../../public/assets/css/style.scss">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <style>
+        label, input { display:block; }
+        input.text { margin-bottom:12px; width:95%; padding: .4em; }
+        fieldset { padding:0; border:0; margin-top:25px; }
+        h1 { font-size: 1.2em; margin: .6em 0; }
+        div#users-contain { width: 350px; margin: 20px 0; }
+        div#users-contain table { margin: 1em 0; border-collapse: collapse; width: 100%; }
+        div#users-contain table td, div#users-contain table th { border: 1px solid #eee; padding: .6em 10px; text-align: left; }
+        .ui-dialog .ui-state-error { padding: .3em; }
+        .validateTips { border: 1px solid transparent; padding: 0.3em; }
+    </style>
+    <link rel="stylesheet" href="../../public/assets/css/style.scss">
     <main>
      <div style="display: flex;position: relative;">
          <div style="margin-left: 270px;"><h1>Tasks</h1></div>
@@ -44,8 +58,174 @@
     <script type="text/javascript">
 
 
+        $( function() {
+            var dialog, form,
 
+                // From http://www.whatwg.org/specs/web-apps/current-work/multipage/states-of-the-type-attribute.html#e-mail-state-%28type=email%29
+                emailRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
+                name = $( "#name" ).val(),
+                dev = document.getElementById("dev").value,
+                description = $( "#description" ).val(),
+                allFields = $( [] ).add( name ).add( dev ).add( description ),
+                tips = $( ".validateTips" );
+
+            function updateTips( t ) {
+                tips
+                    .text( t )
+                    .addClass( "ui-state-highlight" );
+                setTimeout(function() {
+                    tips.removeClass( "ui-state-highlight", 1500 );
+                }, 500 );
+            }
+
+            function checkLength( o, n, min, max ) {
+                if ( o.val().length > max || o.val().length < min ) {
+                    o.addClass( "ui-state-error" );
+                    updateTips( "Length of " + n + " must be between " +
+                        min + " and " + max + "." );
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+
+            function checkRegexp( o, regexp, n ) {
+                if ( !( regexp.test( o.val() ) ) ) {
+                    o.addClass( "ui-state-error" );
+                    updateTips( n );
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+
+            function addUser() {
+                var valid = true;
+                allFields.removeClass( "ui-state-error" );
+                var userr =null;
+
+                if ( valid ) {
+                    dev = document.getElementById("dev").value;
+
+
+                    let data = {idTicket:22,
+                        description:description,
+                        size:0,
+                        state:"no_status",
+                        feature: name,
+                        assignedBy: document.getElementById("session").textContent,
+                        idDev:"/api/developers/"+dev}
+
+                    $.ajax({
+                        type: 'POST',
+                        url: "http://127.0.0.1:8000/api/ticketfrees",
+                        contentType: 'application/json',
+                        data: JSON.stringify(data), // access in body
+                    });
+                    $.ajax({
+                        /* l’url est une chaine de caractères contenant l’adresse où la requête est envoyée */
+                        'async': false,
+                        'global': false,
+                        'url': "http://127.0.0.1:8000/api/ticketfrees",
+
+                        'dataType': "json",
+                        /*Cette fonction permet de vider le contenu du tableau pour recevoir le nouveau contenu*/
+                        'success' : function(retour){
+                            if(retour){
+                                $('#not_started').empty();
+                                $('#no_status').empty();
+                                $('#in_progress').empty();
+                                $('#completed').empty();
+                                $('#not_started').append("<h2 style=\"margin-bottom:30px;color: #3d5af1; \">&nbsp;&nbsp;Not Started</h2>");
+                                $('#no_status').append("<h2 style=\"margin-bottom:30px;color: #3d5af1; \">&nbsp;&nbsp;&nbsp;&nbsp;No Status</h2>");
+                                $('#in_progress').append("<h2 style=\"margin-bottom:30px;color: #3d5af1; \">&nbsp;&nbsp;In Progress</h2>");
+                                $('#completed').append("<h2 style=\"margin-bottom:30px;color: #3d5af1; \">&nbsp;&nbsp;Completed</h2>");
+
+                                $.each(retour, function(i, obj) {
+
+
+                                    console.log(retour);
+
+                                    if(obj.state == "no_status") {
+                                        $('#no_status').append("<div class=\"todo\" id =\"no_status" + obj.idTicket + "\"  draggable=\"true\" > <div class=\"card mb-5 mb-lg-0\" > <div  class=\"aa\"> <ul style=\"list-style-type: none;\"> <li class=\"name\" ><strong>&nbsp;&nbsp;" + obj.feature + "</strong></li> <li class=\"name1\">Assigned By <strong>" + obj.assignedBy + "</strong></li> </ul> </div> </div> </div>");
+                                    }
+                                    else if (obj.state == "not_started"){
+                                        $('#not_started').append("<div class=\"todo\" id =\"not_started" + obj.idTicket + "\"  draggable=\"true\" > <div class=\"card mb-5 mb-lg-0\" > <div  class=\"aa\"> <ul style=\"list-style-type: none;\"> <li class=\"name\" ><strong style=\"font-size: 18px;\">&nbsp;&nbsp;" + obj.feature + "</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong style=\"font-size: 14px;\" >"+obj.size+"h </strong></li> <li class=\"name1\">Assigned By <strong>" + obj.assignedBy + "</strong></li> </ul> </div> </div> </div>");
+                                    }
+                                    else if (obj.state == "in_progress"){
+                                        $('#in_progress').append("<div class=\"todo\" id =\"in_progress" + obj.idTicket + "\"  draggable=\"true\" > <div class=\"card mb-5 mb-lg-0\" > <div  class=\"aa\"> <ul style=\"list-style-type: none;\"> <li class=\"name\" ><strong>&nbsp;&nbsp;" + obj.feature + "</strong></li> <li class=\"name1\">Assigned By <strong>" + obj.assignedBy + "</strong></li> </ul> </div> </div> </div>");
+                                    }
+                                    else if (obj.state == "completed"){
+                                        $('#completed').append("<div class=\"todo\" id =\"completed" + obj.idTicket + "\"  draggable=\"true\" > <div class=\"card mb-5 mb-lg-0\" > <div  class=\"aa\"> <ul style=\"list-style-type: none;\"> <li class=\"name\" ><strong>&nbsp;&nbsp;" + obj.feature + "</strong></li> <li class=\"name1\">Assigned By <strong>" + obj.assignedBy + "</strong></li> </ul> </div> </div> </div>");
+                                    }
+                                });
+                                const todos = document.querySelectorAll(".todo");
+                                todos.forEach((todo) => {
+                                    todo.addEventListener("dragstart", dragStart);
+                                    todo.addEventListener("dragend", dragEnd);
+                                });}
+                            //$('#t tbody#search').append('<tr><td> '+obj.lieu+'  </td><td>    '+obj.nbPlace+'  </td><td>'+obj.descriptions+' </td><td>'+obj.dateEvent+' </td><td>'+obj.getcategory+' </td><td>'+obj.Description+'</td><td><td><a href="event/'+obj.idEvent+'/edit">Modifier</a></td></tr>');
+                            else
+                            {
+
+                            }
+                        },
+                    });
+                    dialog.dialog( "close" );
+                }
+                return valid;
+            }
+
+            dialog = $( "#dialog-form" ).dialog({
+                autoOpen: false,
+                height: 400,
+                width: 350,
+                modal: true,
+                buttons: {
+                    "Create an account": addUser,
+                    Cancel: function() {
+                        dialog.dialog( "close" );
+                    }
+                },
+                close: function() {
+                    form[ 0 ].reset();
+                    allFields.removeClass( "ui-state-error" );
+                }
+            });
+
+            form = dialog.find( "form" ).on( "submit", function( event ) {
+                event.preventDefault();
+                addUser();
+            });
+
+            $( "#create-user" ).button().on( "click", function() {
+                dialog.dialog( "open" );
+            });
+        } );
         $( document ).ready(function() {
+
+            $.ajax({
+                /* l’url est une chaine de caractères contenant l’adresse où la requête est envoyée */
+                'async': false,
+                'global': false,
+                'url': "http://127.0.0.1:8000/api/users?roles=[\"ROLE_USER\"]",
+
+                'dataType': "json",
+                /*Cette fonction permet de vider le contenu du tableau pour recevoir le nouveau contenu*/
+                'success' : function(retour){
+                    if(retour){
+                        $.each(retour, function(i, obj) {
+                            $('#dev').append("<option value=\""+obj.idUser+"\">"+obj.nom+" "+obj.prenom+"</option>")
+
+                        });
+                    }
+                    //$('#t tbody#search').append('<tr><td> '+obj.lieu+'  </td><td>    '+obj.nbPlace+'  </td><td>'+obj.descriptions+' </td><td>'+obj.dateEvent+' </td><td>'+obj.getcategory+' </td><td>'+obj.Description+'</td><td><td><a href="event/'+obj.idEvent+'/edit">Modifier</a></td></tr>');
+                    else
+                    {
+
+                    }
+                },
+            });
 var id="";
             $.ajax({
                 /* l’url est une chaine de caractères contenant l’adresse où la requête est envoyée */
@@ -180,8 +360,52 @@ var id="";
             });
 
         });
+        var role = "" ;
 
+        $.ajax({
+            /* l’url est une chaine de caractères contenant l’adresse où la requête est envoyée */
+            'async': false,
+            'global': false,
+            'url': "http://127.0.0.1:8000/api/users?email="+document.getElementById("ses").textContent,
+
+            'dataType': "json",
+            /*Cette fonction permet de vider le contenu du tableau pour recevoir le nouveau contenu*/
+            'success' : function(retour){
+                if(retour){
+                    $.each(retour, function(i, obj) {
+                        if (obj.roles[0] == "ROLE_ADMIN")
+                        {role = "admin" ;}
+                    });
+                }
+
+                else
+                {
+
+                }
+            },
+        });
+        if (role == "admin")
+        {
+            $("#no_status").append("<button id=\"create-user\" class=\"b\">Add task</button>");       }
     </script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <div id="dialog-form" title="Create new user">
+        <p class="validateTips">All form fields are required.</p>
+
+        <form>
+            <fieldset >
+                <label>feature</label>
+                <input type="text" name="name" id="name" value="feature" class="text ui-widget-content ui-corner-all">
+                <label>Developer</label>
+                <select name="dev" id="dev" editable="12" style="width: 300px; height: 30px;">
+                </select>
+                <label>Description</label>
+                <input type="text" name=“description” id=“description”  class="text ui-widget-content ui-corner-all" style="width: 300px; height: 70px;">
+
+            </fieldset>
+        </form>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 
 {% endblock %}

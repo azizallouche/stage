@@ -25,6 +25,12 @@ class Ticketfree
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $idTicket;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="string", length=100, nullable=false)
+     */
+    private $description;
 
     /**
      * @var int
@@ -64,21 +70,33 @@ class Ticketfree
 
     /**
      * @param int $idTicket
+     * @param string $description
      * @param int $size
      * @param string $state
      * @param string $feature
      * @param string $assignedBy
-     * @param \App\Entity\Developer $idDev
+     * @param Developer $idDev
      */
-    public function __construct(int $idTicket, int $size, string $state, string $feature, string $assignedBy, \App\Entity\Developer $idDev)
+    public function __construct(int $idTicket, string $description, int $size, string $state, string $feature, string $assignedBy, Developer $idDev)
     {
         $this->idTicket = $idTicket;
+        $this->description = $description;
         $this->size = $size;
         $this->state = $state;
         $this->feature = $feature;
         $this->assignedBy = $assignedBy;
         $this->idDev = $idDev;
     }
+
+    /**
+     * @param int $idTicket
+     * @param int $size
+     * @param string $state
+     * @param string $feature
+     * @param string $assignedBy
+     * @param \App\Entity\Developer $idDev
+     */
+
 
     /**
      * @return int
@@ -174,6 +192,22 @@ class Ticketfree
     public function setIdDev(\App\Entity\Developer $idDev): void
     {
         $this->idDev = $idDev;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string $description
+     */
+    public function setDescription(string $description): void
+    {
+        $this->description = $description;
     }
 
 
