@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 #[ApiResource(formats: ['json'])]
-#[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'feature' => 'ipartial', 'assignedBy' => 'ipartial'])]
+#[ApiFilter(SearchFilter::class, properties: ['idTicket' => 'exact', 'feature' => 'ipartial', 'assignedBy' => 'ipartial'])]
 
 /**
  * Ticketfree
