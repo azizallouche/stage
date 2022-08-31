@@ -69,6 +69,49 @@ class Ticketfree
     private $idDev;
 
     /**
+     * @var string
+     *
+     */
+    private $nom;
+    /**
+     * @var string
+     *
+     */
+    private $prenom;
+
+    /**
+     * @return string
+     */
+    public function getNom(): string
+    {
+        return $this->nom;
+    }
+
+    /**
+     * @param string $nom
+     */
+    public function setNom(string $nom): void
+    {
+        $this->nom = $nom;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPrenom(): string
+    {
+        return $this->prenom;
+    }
+
+    /**
+     * @param string $prenom
+     */
+    public function setPrenom(string $prenom): void
+    {
+        $this->prenom = $prenom;
+    }
+
+    /**
      * @param int $idTicket
      * @param string $description
      * @param int $size

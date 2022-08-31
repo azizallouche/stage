@@ -6,6 +6,11 @@
 parameters:
 
 services:
+    # ...
+    'App\DataProvider\ticketDataProvider':
+        tags: [ { name: 'api_platform.collection_data_provider', priority: 2 } ]
+        # Autoconfiguration must be disabled to set a custom priority
+        autoconfigure: false
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
